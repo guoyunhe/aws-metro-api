@@ -9,7 +9,7 @@ router.post("/register", (req, res, next) => {
     req.body.password,
     (err, user) => {
       if (err) {
-        return res.render("register", { error: err.message });
+        return next(err);
       }
 
       passport.authenticate("local")(req, res, () => {
