@@ -16,7 +16,12 @@ var app = express();
 
 app.set("view engine", "pug");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
