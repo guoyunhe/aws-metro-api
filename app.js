@@ -10,6 +10,7 @@ var LocalStrategy = require("passport-local").Strategy;
 var flash = require("connect-flash");
 var cors = require("cors");
 var routes = require("./routes/index");
+var photosRoutes = require("./routes/photos");
 var users = require("./routes/users");
 
 var app = express();
@@ -38,6 +39,7 @@ app.use(passport.initialize());
 app.use(flash());
 app.use(passport.session());
 
+app.use("/photos", photosRoutes);
 app.use("/", routes);
 
 // passport config
