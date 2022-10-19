@@ -32,13 +32,13 @@ router.post(
       if (err) {
         return next(err);
       }
-      res.status(200).json(req.user);
+      res.status(200).json(req.user || null);
     });
   }
 );
 
 router.get("/me", (req, res) => {
-  res.status(200).json(req.user);
+  res.status(200).json(req.user || null);
 });
 
 router.post("/logout", (req, res, next) => {
