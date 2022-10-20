@@ -35,6 +35,16 @@ router.get("/", function (req, res, next) {
     });
 });
 
+router.get("/:photoId", function (req, res, next) {
+  Photo.findById(req.params.photoId)
+    .then((data) => {
+      res.status(200).send(data.toObject({ virtuals: true }));
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
 router.post("/", upload.array("file"), function (req, res, next) {
   Promise.all(
     req.files.map(async (file) => {
