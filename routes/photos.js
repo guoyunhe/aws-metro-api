@@ -1,18 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const config = require("../config.json");
 
 const { S3Client } = require("@aws-sdk/client-s3");
 var multer = require("multer");
 var multerS3 = require("multer-s3");
+const Photo = require("../models/Photo");
 
-const s3 = new S3Client({
-  region: "us-east-1",
-  endpoint: "http://s3.localhost.localstack.cloud:4566",
-  credentials: {
-    accessKeyId: "test",
-    secretAccessKey: "test",
-  },
-});
+const s3 = new S3Client(config.s3);
 
 var upload = multer({
   storage: multerS3({
@@ -28,11 +23,31 @@ var upload = multer({
   }),
 });
 
+router.get("/", function (req, res, next) {
+  Photo.find()
+    .then((data) => {
+      res
+        .status(200)
+        .send(data.map((item) => item.toObject({ virtuals: true })));
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
 router.post("/", upload.array("file"), function (req, res, next) {
-  res.send({
-    data: req.files,
-    msg: "Successfully uploaded " + req.files + " files!",
-  });
+  Promise.all(
+    req.files.map(async (file) => {
+      const photo = new Photo(file);
+      await photo.save();
+    })
+  )
+    .then(() => {
+      res.status(200).send();
+    })
+    .catch((err) => {
+      next(err);
+    });
 });
 
 module.exports = router;

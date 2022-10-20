@@ -9,9 +9,11 @@ var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
 var flash = require("connect-flash");
 var cors = require("cors");
+var MongoStore = require("connect-mongo");
 var routes = require("./routes/index");
 var photosRoutes = require("./routes/photos");
 var users = require("./routes/users");
+var config = require("./config.json");
 
 var app = express();
 
@@ -33,6 +35,9 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: config.mongo.url,
+    }),
   })
 );
 app.use(passport.initialize());
@@ -49,7 +54,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 mongoose
-  .connect("mongodb://root:password@localhost:27017/metro?authSource=admin")
+  .connect(config.mongo.url)
   .then(() => {
     console.log("MongoDB is connected");
   })
