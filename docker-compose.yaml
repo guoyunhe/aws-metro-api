@@ -19,14 +19,20 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: password
       ME_CONFIG_MONGODB_URL: mongodb://root:password@mongo:27017/
+    depends_on:
+      - mongo
   localstack:
-    image: localstack/localstack
+    image: localstack/localstack:1.1.0
     ports:
       - "127.0.0.1:4566:4566" # LocalStack Gateway
       - "127.0.0.1:4510-4559:4510-4559" # external services port range
+      - "127.0.0.1:53:53"                # DNS config (only required for Pro)
+      - "127.0.0.1:53:53/udp"            # DNS config (only required for Pro)
+      - "127.0.0.1:443:443"              # LocalStack HTTPS Gateway (only required for Pro)
     environment:
       - AWS_DEFAULT_REGION=us-east-1
       - AWS_ACCESS_KEY_ID=test
       - AWS_SECRET_ACCESS_KEY=test
-      - EDGE_PORT=4566
-      - SERVICES=s3
+      - PERSISTENCE=1
+      - LOCALSTACK_API_KEY=1TCH9QejMZ
+      - REQUIRE_PRO=1
