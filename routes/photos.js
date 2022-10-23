@@ -75,7 +75,6 @@ router.delete("/:photoId", function (req, res, next) {
 });
 
 router.post("/:photoId/labels/", function (req, res, next) {
-  console.log(req.params);
   Photo.findById(req.params.photoId)
     .then((photo) => {
       photo.labels.push(req.body);
