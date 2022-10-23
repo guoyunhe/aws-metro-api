@@ -2,6 +2,8 @@ const express = require("express");
 const passport = require("passport");
 const User = require("../models/User");
 const router = express.Router();
+const photosRoutes = require("./photos");
+const ensureLogIn = require("connect-ensure-login").ensureLoggedIn;
 
 router.post("/register", (req, res, next) => {
   User.register(
@@ -54,5 +56,7 @@ router.post("/logout", (req, res, next) => {
     });
   });
 });
+
+router.use("/photos", ensureLogIn(), photosRoutes);
 
 module.exports = router;

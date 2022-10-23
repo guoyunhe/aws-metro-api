@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const config = require("../config.json");
-const mongoosePaginate = require("mongoose-paginate-v2");
+const Label = require("./Label");
 
 const Photo = new Schema(
   {
@@ -9,6 +9,7 @@ const Photo = new Schema(
     key: String,
     name: String,
     mimetype: String,
+    labels: [Label.schema],
   },
   {
     virtuals: {
@@ -20,7 +21,5 @@ const Photo = new Schema(
     },
   }
 );
-
-Photo.plugin(mongoosePaginate);
 
 module.exports = mongoose.model("photos", Photo);

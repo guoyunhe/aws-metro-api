@@ -11,8 +11,6 @@ var flash = require("connect-flash");
 var cors = require("cors");
 var MongoStore = require("connect-mongo");
 var routes = require("./routes/index");
-var photosRoutes = require("./routes/photos");
-var users = require("./routes/users");
 var config = require("./config.json");
 
 var app = express();
@@ -44,7 +42,6 @@ app.use(passport.initialize());
 app.use(flash());
 app.use(passport.session());
 
-app.use("/photos", photosRoutes);
 app.use("/", routes);
 
 // passport config
