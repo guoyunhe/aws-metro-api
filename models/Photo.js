@@ -7,7 +7,7 @@ const Photo = new Schema(
   {
     bucket: String,
     key: String,
-    name: String,
+    originalname: String,
     mimetype: String,
     labels: [Label.schema],
   },

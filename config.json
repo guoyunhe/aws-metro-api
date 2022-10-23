@@ -9,5 +9,6 @@
       "accessKeyId": "test",
       "secretAccessKey": "test"
     }
-  }
+  },
+  "s3Bucket": "test"
 }
