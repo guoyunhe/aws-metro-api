@@ -11,7 +11,7 @@ var flash = require("connect-flash");
 var cors = require("cors");
 var MongoStore = require("connect-mongo");
 var routes = require("./routes/index");
-var config = require("./config.json");
+require("dotenv").config();
 
 var app = express();
 
@@ -34,7 +34,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: config.mongo.url,
+      mongoUrl: process.env.MONGO_URL,
     }),
   })
 );
@@ -51,7 +51,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 mongoose
-  .connect(config.mongo.url)
+  .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("MongoDB is connected");
   })

@@ -1,17 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const config = require("../config.json");
 const { S3Client, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 var multer = require("multer");
 var multerS3 = require("multer-s3");
 const Photo = require("../models/Photo");
 
-const s3 = new S3Client(config.s3);
+const s3 = new S3Client({
+  endpoint: process.env.S3_ENDPOINT,
+  region: process.env.S3_REGION,
+  credentials: {
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  },
+});
 
 var upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: config.s3Bucket,
+    bucket: process.env.S3_BUCKET,
     acl: "public-read",
     metadata: function (req, file, cb) {
       cb(null, { fieldName: file.fieldname });
@@ -64,7 +70,7 @@ router.delete("/:photoId", function (req, res, next) {
     .then((photo) => {
       s3.send(
         new DeleteObjectCommand({
-          Bucket: config.s3Bucket,
+          Bucket: process.env.S3_BUCKET,
           Key: photo.key,
         })
       );
