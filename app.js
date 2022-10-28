@@ -1,4 +1,5 @@
 // dependencies
+require("dotenv").config();
 var express = require("express");
 var path = require("path");
 var logger = require("morgan");
@@ -11,7 +12,6 @@ var flash = require("connect-flash");
 var cors = require("cors");
 var MongoStore = require("connect-mongo");
 var routes = require("./routes/index");
-require("dotenv").config();
 
 var app = express();
 
