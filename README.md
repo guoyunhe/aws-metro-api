@@ -50,6 +50,10 @@ SSL_CERT=/etc/letsencrypt/live/api.your-domain.com/fullchain.pem
 SSL_KEY=/etc/letsencrypt/live/api.your-domain.com/privkey.pem
 CORS_ORIGIN=https://your-domain.com
 MONGO_URL=mongodb://user:pass@cluster-name.cluster-id.us-east-1.docdb.amazonaws.com:27017/metro?replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false
+S3_REGION=us-east-1
+S3_ACCESS_KEY_ID=test
+S3_SECRET_ACCESS_KEY=test
+S3_BUCKET=test
 ```
 
 ```
