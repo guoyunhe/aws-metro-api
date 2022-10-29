@@ -14,8 +14,7 @@ const Photo = new Schema(
       url: {
         get() {
           return (
-            process.env.S3_ENDPOINT + "/" + process.env.S3_BUCKET,
-            +"/" + this.key
+            "https://" + process.env.S3_BUCKET + ".s3.amazonaws.com/" + this.key
           );
         },
       },
